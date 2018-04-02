@@ -1,0 +1,36 @@
+			<DB 파트>
+회원 테이블(아이디, 비밀번호, 이름, 이메일, 주소, 휴대폰번호, 집전화)
+create table member(
+mem_id varchar(10) primary key,
+mem_pw varchar(10) not null,
+mem_name char(5) not null,
+mem_email varchar(20),
+mem_addr varchar(20),
+mem_phone varchar(15),
+mem_tel varchar(15)
+);
+
+게시판 테이블(글번호, 글제목, 글내용, 작성자, 글위치, 들여쓰기횟수, 조회수, 글 등록 날짜, 작성자 ip)
+create table board(
+txt_no int primary key AUTO_INCREMENT,
+txt_title varchar(20) not null,
+txt_content varchar(2000),
+txt_writer varchar(10),
+txt_pos int,
+txt_depth int,
+txt_read_count int,
+txt_regdate datetime,
+txt_writer_ip varchar(20),
+constraint txt_wr_fk foreign key(txt_writer) references member(mem_id)
+);
+
+
+
+			<web 파트>
+		   
+	   게시글 보기 페이지 (수정,삭제 버튼 선택) ㅡ> (권한(아이디) 확인) 글 작성 페이지(기존 내용 표시)
+		            ㅣ(글 선택)
+	   게시판 목록 페이지  (글 작성 버튼 선택, 로그인 유무에 따른 페이지 처리) ㅡ> (로그인 확인) 글 작성 페이지
+                           ㅣ(회원가입 버튼 선택)
+                  회원가입 페이지    
+
