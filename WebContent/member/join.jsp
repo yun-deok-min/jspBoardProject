@@ -21,6 +21,103 @@
 
  </script>
  <![endif]-->
+ 
+ <script type="text/javascript">
+ 	var dupChecked = false;  // 아이디 중복 확인 버튼을 눌렀는지
+ 	var isDuplicateId = true; // 아이디가 중복인지 아닌지 
+ 
+ 	// 아이디 중복 확인 버튼 눌렀을 때, 실행될 함수 
+ 	function CheckIdDup(){
+ 		if(document.getElementById("mem_id") == ""){
+ 			alert("아이디를 입력해주세요");
+ 		}
+ 		else{
+ 			location.href = "CheckId.jsp?memid=" 
+ 					+ document.getElementById("mem_id");
+ 		}
+ 	}
+ </script>
+ 
+ <%
+ 	request.setCharacterEncoding("UTF-8"); 
+ 	if(request.getParameter("isDuplicateId") != null){
+  		if(request.getParameter("isDuplicateId").equals("true")){
+ %>
+ 			<script type="text/javascript">
+ 				isDuplicateId = true;
+ 			</script>
+ <% 
+  		}
+ 	}
+ 	if(request.getParameter("dupChecked") != null){
+  		if(request.getParameter("dupChecked").equals("true")){
+ %>
+ 			<script type="text/javascript">
+ 				dupChecked = true;
+ 			</script>
+ <% 
+  		}
+ 	}
+ %>
+ 
+ 
+ <script type="text/javascript">
+ 	// 회원가입 눌렀을 때, 유효성 검사할 함수
+ 	function CheckForm(){
+ 		var basicInfo = document.join.basicInfo;  // 필수 입력 fieldset
+ 		var cnt = basicInfo.elements.length;      // 필수 입력 fieldset의 input 태그 갯수
+ 		// alert(basicInfo.elements.length);
+ 		
+ 		for(i=0; i<cnt; i++){
+ 	 		if(basicInfo.elements[i].type =="text" || 
+ 	 				basicInfo.elements[i].type =="password" || 
+ 	 				basicInfo.elements[i].type =="eamil" ){
+ 	 			if(basicInfo.elements[i].value == ""){ // 값이 비어있을 경우
+ 	 				alert("기본 정보는 모두 입력해야 합니다");
+ 	 				basicInfo.elements[i].focus();
+ 	 				return;
+ 	 			}
+ 	 			// 값이 비어있지 않다면, 처음 입력값과 확인값이 같은지 확인
+ 	 			else{  
+ 	 				// 비밀번호에 입력한 내용과 비밀번호 확인에 입력한 내용이 다른 경우
+ 	 				if(basicInfo.elements[i].type == "password"){
+ 	 					if(document.getElementById("mem_pw").value !=
+ 	 							document.getElementById("mem_pw2").value){
+ 	 						alert("비밀번호가 다릅니다. 확인해주세요");
+ 	 						document.getElementById("mem_pw").focus();
+ 	 	 	 				return;
+ 	 					}
+ 	 				}
+ 	 				// 이메일에 입력한 내용과 이메일 확인에 입력한 내용이 다른 경우
+ 	 				else if(basicInfo.elements[i].type == "email"){
+ 	 					if(document.getElementById("mem_email").value !=
+ 	 							document.getElementById("mem_email2").value){
+ 	 						alert("비밀번호가 다릅니다. 확인해주세요");
+ 	 						document.getElementById("mem_email").focus();
+ 	 	 	 				return;
+ 	 					}
+ 	 				}
+ 	 			}
+ 	 		} // input태그의 타입이 텍스트, 패스워드, 이메일인 경우 종료
+ 	 		else{
+ 	 			if(!dupChecked){ // 아이디 중복 체크 실시 여부
+ 	 				alert("아이디 중복 검사를 해주세요");
+ 	 				basicInfo.elements[i].focus();
+ 	 				return;
+ 	 			}
+ 	 			else{ // 아이디 중복 체크를 한적은 있지만
+ 	 				  // 중복으로 판명되었고 수정하지 않은 상태에서 회원가입 버튼을 누른 경우
+ 	 				if(isDuplicateId){
+ 	 		 			alert("중복된 아이디 입니다. 아이디를 변경해주세요");
+ 	 		 			return;
+ 	 		 		}
+ 	 			}
+ 	 		}
+ 		} // for문 종료
+ 		
+ 		document.join.submit();  // 조건을 모두 만족해서 return문을 만나지 않은경우, 회원가입 처리
+ 	}
+ </script>
 </head>
 <body>
 <div id="wrap">
@@ -43,37 +140,38 @@
 <!-- 본문내용 -->
 <article>
 <h1>Join Us</h1>
-<form action="" id="join">
-<fieldset>
+<form action="join_pro.jsp" id="join" name="join">
+<fieldset name="basicInfo">
 <legend>Basic Info</legend>
-<label>User ID</label>
-<input type="text" name="id" class="id">
-<input type="button" value="dup. check" class="dup"><br>
-<label>Password</label>
-<input type="password" name="pass"><br>
-<label>Retype Password</label>
-<input type="password" name="pass2"><br>
-<label>Name</label>
-<input type="text" name="name"><br>
-<label>E-Mail</label>
-<input type="email" name="email"><br>
-<label>Retype E-Mail</label>
-<input type="email" name="email2"><br>
+<label>아이디</label>
+<input type="text" name="mem_id" class="id" required="required">
+<input type="button" value="아이디 중복 체크" class="dup" onclick="CheckIdDup()"><br>
+<label>비밀번호</label>
+<input type="password" name="mem_pw" id="mem_pw"><br>
+<label>비밀번호 확인</label>
+<input type="password" name="mem_pw2" id="mem_pw2"><br>
+<label>이름</label>
+<input type="text" name="mem_name"><br>
+<label>이메일</label>
+<input type="email" name="mem_email" id="mem_email"><br>
+<label>이메일 확인</label>
+<input type="email" name="mem_email2" id="mem_email2"><br>
 </fieldset>
 
 <fieldset>
 <legend>Optional</legend>
-<label>Address</label>
-<input type="text" name="address"><br>
-<label>Phone Number</label>
-<input type="text" name="phone"><br>
-<label>Mobile Phone Number</label>
-<input type="text" name="mobile"><br>
+<label>주소</label>
+<input type="text" name="mem_addr"><br>
+<label>집 전화</label>
+<input type="text" name="mem_tel"><br>
+<label>휴대폰</label>
+<input type="text" name="mem_phone"><br>
 </fieldset>
 <div class="clear"></div>
 <div id="buttons">
-<input type="button" value="Submit" class="submit">
-<input type="button" value="Cancel" class="cancel">
+<!-- <input type="submit" value="회원가입" class="submit"> -->
+<input type="button" value="회원가입" class="submit" onclick="CheckForm()"> 
+<input type="reset" value="취소" class="cancel">
 </div>
 </form>
 </article>

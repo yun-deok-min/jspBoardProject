@@ -32,6 +32,28 @@ public class RegisterDao {
 			e.printStackTrace();
 		}
 	}
+	
+	public boolean isDuplicateId(String mem_id){
+		try{
+			conn = ds.getConnection();
+			String sql = "select mem_id from member where mem_id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mem_id);
+			result = pstmt.executeQuery();
+			
+			while(result.next()){
+				return true; // 중복아이디 있음
+			}
+		}
+		catch(Exception e){
+			System.out.println("getAllId 오류");
+			e.printStackTrace();
+		}
+		finally{
+			freeResource();
+		}
+		return false;
+	}
 }
 
 
