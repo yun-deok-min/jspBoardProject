@@ -1,3 +1,4 @@
+package register;
 import java.sql.*;
 
 import javax.naming.Context;
@@ -46,7 +47,7 @@ public class RegisterDao {
 			}
 		}
 		catch(Exception e){
-			System.out.println("getAllId 오류");
+			System.out.println("isDuplicateId 오류");
 			e.printStackTrace();
 		}
 		finally{

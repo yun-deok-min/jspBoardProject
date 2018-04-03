@@ -1,3 +1,4 @@
+package board;
 import java.sql.*;
 
 import javax.naming.Context;
@@ -16,7 +17,7 @@ public class BoardDao {
 			ds = (DataSource)initCtx.lookup("java:comp/env/jdbc/jsp_beginner");
 		}
 		catch(Exception e){
-			System.out.println("RegisterDao 持失切 神嫌");
+			System.out.println("BoardDao 持失切 神嫌");
 			e.printStackTrace();
 		}
 	}

@@ -28,12 +28,12 @@
  
  	// 아이디 중복 확인 버튼 눌렀을 때, 실행될 함수 
  	function CheckIdDup(){
- 		if(document.getElementById("mem_id") == ""){
+ 		// 아이디를 입력하지 않고 중복 검사 버튼을 누를 경우
+ 		if(document.getElementById("mem_id").value == ""){ 
  			alert("아이디를 입력해주세요");
  		}
  		else{
- 			location.href = "CheckId.jsp?memid=" 
- 					+ document.getElementById("mem_id");
+ 			location.href = "CheckId.jsp?mem_id=" + document.getElementById("mem_id").value;
  		}
  	}
  </script>
@@ -59,7 +59,6 @@
   		}
  	}
  %>
- 
  
  <script type="text/javascript">
  	// 회원가입 눌렀을 때, 유효성 검사할 함수
@@ -144,7 +143,7 @@
 <fieldset name="basicInfo">
 <legend>Basic Info</legend>
 <label>아이디</label>
-<input type="text" name="mem_id" class="id" required="required">
+<input type="text" name="mem_id" id="mem_id" class="id" required="required">
 <input type="button" value="아이디 중복 체크" class="dup" onclick="CheckIdDup()"><br>
 <label>비밀번호</label>
 <input type="password" name="mem_pw" id="mem_pw"><br>

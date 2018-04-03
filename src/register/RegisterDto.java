@@ -1,3 +1,4 @@
+package register;
 
 public class RegisterDto {
 	private String mem_id;
