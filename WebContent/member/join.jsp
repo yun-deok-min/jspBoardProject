@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,165 +22,184 @@
  </script>
  <![endif]-->
  
- <script type="text/javascript">
- 	var dupChecked = false;  // ¾ÆÀÌµğ Áßº¹ È®ÀÎ ¹öÆ°À» ´­·¶´ÂÁö
- 	var isDuplicateId = true; // ¾ÆÀÌµğ°¡ Áßº¹ÀÎÁö ¾Æ´ÑÁö 
- 
- 	// ¾ÆÀÌµğ Áßº¹ È®ÀÎ ¹öÆ° ´­·¶À» ¶§, ½ÇÇàµÉ ÇÔ¼ö 
- 	function CheckIdDup(){
- 		// ¾ÆÀÌµğ¸¦ ÀÔ·ÂÇÏÁö ¾Ê°í Áßº¹ °Ë»ç ¹öÆ°À» ´©¸¦ °æ¿ì
- 		if(document.getElementById("mem_id").value == ""){ 
- 			alert("¾ÆÀÌµğ¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä");
- 		}
- 		else{
- 			location.href = "CheckId.jsp?mem_id=" + document.getElementById("mem_id").value;
- 		}
- 	}
- </script>
- 
- <%
+<%
  	request.setCharacterEncoding("UTF-8"); 
- 	if(request.getParameter("isDuplicateId") != null){
-  		if(request.getParameter("isDuplicateId").equals("true")){
- %>
+	String mem_id = "";
+	
+ 	// CheckId.jsp ì—ê²Œ ê°’ì„ ë°›ì§€ ì•Šì€ ê²½ìš°(=ì²˜ìŒ í˜ì´ì§€ë¥¼ ì—´ì—ˆì„ ë•Œ)
+ 	if(request.getParameter("dupChecked") == null){ 
+%>
+  		<script type="text/javascript">
+  			var dupChecked = false;  // ì•„ì´ë”” ì¤‘ë³µ í™•ì¸ ë²„íŠ¼ì„ ëˆŒë €ëŠ”ì§€
+  		 	var isDuplicateId = true; // ì•„ì´ë””ê°€ ì¤‘ë³µì¸ì§€ ì•„ë‹Œì§€ 
+  		</script>
+<%
+ 	}
+ 	// CheckId.jsp ì—ê²Œ ê°’ì„ ë°›ì„ ë•Œ
+ 	else{
+ 		mem_id = request.getParameter("mem_id");
+ 		
+ 		// ì´ë¯¸ dbì— ìˆëŠ” ì•„ì´ë””ì¼ ê²½ìš°
+ 		if(request.getParameter("isDuplicateId").equals("true")){
+%>
  			<script type="text/javascript">
- 				isDuplicateId = true;
+ 				var isDuplicateId = true;
  			</script>
  <% 
   		}
- 	}
- 	if(request.getParameter("dupChecked") != null){
+ 		// dbì— ì—†ì–´ì„œ ì‚¬ìš©ê°€ëŠ¥í•œ ì•„ì´ë””ì¼ ê²½ìš°, isDuplicateId = false
+ 		else{
+ %>
+ 			<script type="text/javascript">
+ 				var isDuplicateId = false;
+ 			</script>
+ <% 
+ 		}
+ 		
+ 		// ì•„ì´ë”” ì¤‘ë³µ ì²´í¬ ë²„íŠ¼ì„ í´ë¦­í•´ì„œ í™•ì¸ í–ˆìŒì„ ì €ì¥
   		if(request.getParameter("dupChecked").equals("true")){
  %>
- 			<script type="text/javascript">
- 				dupChecked = true;
- 			</script>
- <% 
+  			<script type="text/javascript">
+  				var dupChecked = true;
+  			</script>
+ <%   		
   		}
- 	}
+ 	} // CheckId.jspì—ê²Œ ê°’ì„ ë°›ì€ê²½ìš°ë¥¼ ì²˜ë¦¬í•˜ëŠ” elseë¬¸ ì¢…ë£Œ
  %>
  
  <script type="text/javascript">
- 	// È¸¿ø°¡ÀÔ ´­·¶À» ¶§, À¯È¿¼º °Ë»çÇÒ ÇÔ¼ö
+	//ì•„ì´ë”” ì¤‘ë³µ í™•ì¸ ë²„íŠ¼ ëˆŒë €ì„ ë•Œ, ì‹¤í–‰ë  í•¨ìˆ˜ 
+	function CheckIdDup(){
+		// ì•„ì´ë””ë¥¼ ì…ë ¥í•˜ì§€ ì•Šê³  ì¤‘ë³µ ê²€ì‚¬ ë²„íŠ¼ì„ ëˆ„ë¥¼ ê²½ìš°
+		if(document.getElementById("mem_id").value == ""){ 
+			alert("ì•„ì´ë””ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”");
+		}
+		else{
+			location.href = "CheckId.jsp?mem_id=" + document.getElementById("mem_id").value;
+		}
+	}
+	
+ 	// íšŒì›ê°€ì… ëˆŒë €ì„ ë•Œ, ìœ íš¨ì„± ê²€ì‚¬í•  í•¨ìˆ˜
  	function CheckForm(){
- 		var basicInfo = document.join.basicInfo;  // ÇÊ¼ö ÀÔ·Â fieldset
- 		var cnt = basicInfo.elements.length;      // ÇÊ¼ö ÀÔ·Â fieldsetÀÇ input ÅÂ±× °¹¼ö
+ 		var basicInfo = document.join.basicInfo;  // í•„ìˆ˜ ì…ë ¥ fieldset
+ 		var cnt = basicInfo.elements.length;      // í•„ìˆ˜ ì…ë ¥ fieldsetì˜ input íƒœê·¸ ê°¯ìˆ˜
  		// alert(basicInfo.elements.length);
  		
  		for(i=0; i<cnt; i++){
  	 		if(basicInfo.elements[i].type =="text" || 
  	 				basicInfo.elements[i].type =="password" || 
- 	 				basicInfo.elements[i].type =="eamil" ){
- 	 			if(basicInfo.elements[i].value == ""){ // °ªÀÌ ºñ¾îÀÖÀ» °æ¿ì
- 	 				alert("±âº» Á¤º¸´Â ¸ğµÎ ÀÔ·ÂÇØ¾ß ÇÕ´Ï´Ù");
+ 	 				basicInfo.elements[i].type =="email" ){
+ 	 			if(basicInfo.elements[i].value == ""){ // ê°’ì´ ë¹„ì–´ìˆì„ ê²½ìš°
+ 	 				alert("ê¸°ë³¸ ì •ë³´ëŠ” ëª¨ë‘ ì…ë ¥í•´ì•¼ í•©ë‹ˆë‹¤");
  	 				basicInfo.elements[i].focus();
  	 				return;
  	 			}
- 	 			// °ªÀÌ ºñ¾îÀÖÁö ¾Ê´Ù¸é, Ã³À½ ÀÔ·Â°ª°ú È®ÀÎ°ªÀÌ °°ÀºÁö È®ÀÎ
+ 	 			// ê°’ì´ ë¹„ì–´ìˆì§€ ì•Šë‹¤ë©´, ì²˜ìŒ ì…ë ¥ê°’ê³¼ í™•ì¸ê°’ì´ ê°™ì€ì§€ í™•ì¸
  	 			else{  
- 	 				// ºñ¹Ğ¹øÈ£¿¡ ÀÔ·ÂÇÑ ³»¿ë°ú ºñ¹Ğ¹øÈ£ È®ÀÎ¿¡ ÀÔ·ÂÇÑ ³»¿ëÀÌ ´Ù¸¥ °æ¿ì
+ 	 				// ë¹„ë°€ë²ˆí˜¸ì— ì…ë ¥í•œ ë‚´ìš©ê³¼ ë¹„ë°€ë²ˆí˜¸ í™•ì¸ì— ì…ë ¥í•œ ë‚´ìš©ì´ ë‹¤ë¥¸ ê²½ìš°
  	 				if(basicInfo.elements[i].type == "password"){
  	 					if(document.getElementById("mem_pw").value !=
  	 							document.getElementById("mem_pw2").value){
- 	 						alert("ºñ¹Ğ¹øÈ£°¡ ´Ù¸¨´Ï´Ù. È®ÀÎÇØÁÖ¼¼¿ä");
+ 	 						alert("ë¹„ë°€ë²ˆí˜¸ê°€ ë‹¤ë¦…ë‹ˆë‹¤. í™•ì¸í•´ì£¼ì„¸ìš”");
  	 						document.getElementById("mem_pw").focus();
  	 	 	 				return;
  	 					}
  	 				}
- 	 				// ÀÌ¸ŞÀÏ¿¡ ÀÔ·ÂÇÑ ³»¿ë°ú ÀÌ¸ŞÀÏ È®ÀÎ¿¡ ÀÔ·ÂÇÑ ³»¿ëÀÌ ´Ù¸¥ °æ¿ì
+ 	 				// ì´ë©”ì¼ì— ì…ë ¥í•œ ë‚´ìš©ê³¼ ì´ë©”ì¼ í™•ì¸ì— ì…ë ¥í•œ ë‚´ìš©ì´ ë‹¤ë¥¸ ê²½ìš°
  	 				else if(basicInfo.elements[i].type == "email"){
  	 					if(document.getElementById("mem_email").value !=
  	 							document.getElementById("mem_email2").value){
- 	 						alert("ºñ¹Ğ¹øÈ£°¡ ´Ù¸¨´Ï´Ù. È®ÀÎÇØÁÖ¼¼¿ä");
+ 	 						alert("ì´ë©”ì¼ì´ ë‹¤ë¦…ë‹ˆë‹¤. í™•ì¸í•´ì£¼ì„¸ìš”");
  	 						document.getElementById("mem_email").focus();
  	 	 	 				return;
  	 					}
  	 				}
  	 			}
- 	 		} // inputÅÂ±×ÀÇ Å¸ÀÔÀÌ ÅØ½ºÆ®, ÆĞ½º¿öµå, ÀÌ¸ŞÀÏÀÎ °æ¿ì Á¾·á
+ 	 		} // inputíƒœê·¸ì˜ íƒ€ì…ì´ í…ìŠ¤íŠ¸, íŒ¨ìŠ¤ì›Œë“œ, ì´ë©”ì¼ì¸ ê²½ìš° ì¢…ë£Œ
  	 		else{
- 	 			if(!dupChecked){ // ¾ÆÀÌµğ Áßº¹ Ã¼Å© ½Ç½Ã ¿©ºÎ
- 	 				alert("¾ÆÀÌµğ Áßº¹ °Ë»ç¸¦ ÇØÁÖ¼¼¿ä");
+ 	 			if(!dupChecked){ // ì•„ì´ë”” ì¤‘ë³µ ì²´í¬ ì‹¤ì‹œ ì—¬ë¶€
+ 	 				alert("ì•„ì´ë”” ì¤‘ë³µ ê²€ì‚¬ë¥¼ í•´ì£¼ì„¸ìš”");
  	 				basicInfo.elements[i].focus();
  	 				return;
  	 			}
- 	 			else{ // ¾ÆÀÌµğ Áßº¹ Ã¼Å©¸¦ ÇÑÀûÀº ÀÖÁö¸¸
- 	 				  // Áßº¹À¸·Î ÆÇ¸íµÇ¾ú°í ¼öÁ¤ÇÏÁö ¾ÊÀº »óÅÂ¿¡¼­ È¸¿ø°¡ÀÔ ¹öÆ°À» ´©¸¥ °æ¿ì
+ 	 			// inputíƒœê·¸ì˜ íƒ€ì…ì´ ë²„íŠ¼ì¸ ê²½ìš°(=ì•„ì´ë”” ì¤‘ë³µ ì²´í¬ ë²„íŠ¼)
+ 	 			else{ // ì•„ì´ë”” ì¤‘ë³µ ì²´í¬ë¥¼ í•œì ì€ ìˆì§€ë§Œ
+ 	 				  // ì¤‘ë³µìœ¼ë¡œ íŒëª…ë˜ì—ˆê³  ìˆ˜ì •í•˜ì§€ ì•Šì€ ìƒíƒœì—ì„œ íšŒì›ê°€ì… ë²„íŠ¼ì„ ëˆ„ë¥¸ ê²½ìš°
  	 				if(isDuplicateId){
- 	 		 			alert("Áßº¹µÈ ¾ÆÀÌµğ ÀÔ´Ï´Ù. ¾ÆÀÌµğ¸¦ º¯°æÇØÁÖ¼¼¿ä");
+ 	 		 			alert("ì¤‘ë³µëœ ì•„ì´ë”” ì…ë‹ˆë‹¤. ì•„ì´ë””ë¥¼ ë³€ê²½í•´ì£¼ì„¸ìš”");
  	 		 			return;
  	 		 		}
  	 			}
  	 		}
- 		} // for¹® Á¾·á
+ 		} // forë¬¸ ì¢…ë£Œ
  		
- 		document.join.submit();  // Á¶°ÇÀ» ¸ğµÎ ¸¸Á·ÇØ¼­ return¹®À» ¸¸³ªÁö ¾ÊÀº°æ¿ì, È¸¿ø°¡ÀÔ Ã³¸®
+ 		document.join.submit();  // ì¡°ê±´ì„ ëª¨ë‘ ë§Œì¡±í•´ì„œ returnë¬¸ì„ ë§Œë‚˜ì§€ ì•Šì€ê²½ìš°, íšŒì›ê°€ì… ì²˜ë¦¬
  	}
  </script>
 </head>
 <body>
 <div id="wrap">
-<!-- Çì´õµé¾î°¡´Â °÷ -->
+<!-- í—¤ë”ë“¤ì–´ê°€ëŠ” ê³³ -->
 <jsp:include page="../inc/top.jsp" />
-<!-- Çì´õµé¾î°¡´Â °÷ -->
+<!-- í—¤ë”ë“¤ì–´ê°€ëŠ” ê³³ -->
 
-<!-- º»¹®µé¾î°¡´Â °÷ -->
-<!-- º»¹®¸ŞÀÎÀÌ¹ÌÁö -->
+<!-- ë³¸ë¬¸ë“¤ì–´ê°€ëŠ” ê³³ -->
+<!-- ë³¸ë¬¸ë©”ì¸ì´ë¯¸ì§€ -->
 <div id="sub_img_member"></div>
-<!-- º»¹®¸ŞÀÎÀÌ¹ÌÁö -->
-<!-- ¿ŞÂÊ¸Ş´º -->
+<!-- ë³¸ë¬¸ë©”ì¸ì´ë¯¸ì§€ -->
+<!-- ì™¼ìª½ë©”ë‰´ -->
 <nav id="sub_menu">
 <ul>
 <li><a href="#">Join us</a></li>
 <li><a href="#">Privacy policy</a></li>
 </ul>
 </nav>
-<!-- ¿ŞÂÊ¸Ş´º -->
-<!-- º»¹®³»¿ë -->
+<!-- ì™¼ìª½ë©”ë‰´ -->
+<!-- ë³¸ë¬¸ë‚´ìš© -->
 <article>
 <h1>Join Us</h1>
 <form action="join_pro.jsp" id="join" name="join">
 <fieldset name="basicInfo">
 <legend>Basic Info</legend>
-<label>¾ÆÀÌµğ</label>
-<input type="text" name="mem_id" id="mem_id" class="id" required="required">
-<input type="button" value="¾ÆÀÌµğ Áßº¹ Ã¼Å©" class="dup" onclick="CheckIdDup()"><br>
-<label>ºñ¹Ğ¹øÈ£</label>
+<label>ì•„ì´ë””</label>
+<input type="text" name="mem_id" id="mem_id" class="id" value="<%=mem_id%>">
+<input type="button" value="ì•„ì´ë”” ì¤‘ë³µ ì²´í¬" class="dup" onclick="CheckIdDup()"><br>
+<label>ë¹„ë°€ë²ˆí˜¸</label>
 <input type="password" name="mem_pw" id="mem_pw"><br>
-<label>ºñ¹Ğ¹øÈ£ È®ÀÎ</label>
+<label>ë¹„ë°€ë²ˆí˜¸ í™•ì¸</label>
 <input type="password" name="mem_pw2" id="mem_pw2"><br>
-<label>ÀÌ¸§</label>
+<label>ì´ë¦„</label>
 <input type="text" name="mem_name"><br>
-<label>ÀÌ¸ŞÀÏ</label>
+<label>ì´ë©”ì¼</label>
 <input type="email" name="mem_email" id="mem_email"><br>
-<label>ÀÌ¸ŞÀÏ È®ÀÎ</label>
+<label>ì´ë©”ì¼ í™•ì¸</label>
 <input type="email" name="mem_email2" id="mem_email2"><br>
 </fieldset>
 
 <fieldset>
 <legend>Optional</legend>
-<label>ÁÖ¼Ò</label>
+<label>ì£¼ì†Œ</label>
 <input type="text" name="mem_addr"><br>
-<label>Áı ÀüÈ­</label>
+<label>ì§‘ ì „í™”</label>
 <input type="text" name="mem_tel"><br>
-<label>ÈŞ´ëÆù</label>
+<label>íœ´ëŒ€í°</label>
 <input type="text" name="mem_phone"><br>
 </fieldset>
 <div class="clear"></div>
 <div id="buttons">
-<!-- <input type="submit" value="È¸¿ø°¡ÀÔ" class="submit"> -->
-<input type="button" value="È¸¿ø°¡ÀÔ" class="submit" onclick="CheckForm()"> 
-<input type="reset" value="Ãë¼Ò" class="cancel">
+<!-- <input type="submit" value="íšŒì›ê°€ì…" class="submit"> -->
+<input type="button" value="íšŒì›ê°€ì…" class="submit" onclick="CheckForm()"> 
+<input type="reset" value="ì·¨ì†Œ" class="cancel">
 </div>
 </form>
 </article>
-<!-- º»¹®³»¿ë -->
-<!-- º»¹®µé¾î°¡´Â °÷ -->
+<!-- ë³¸ë¬¸ë‚´ìš© -->
+<!-- ë³¸ë¬¸ë“¤ì–´ê°€ëŠ” ê³³ -->
 
 <div class="clear"></div>
-<!-- ÇªÅÍµé¾î°¡´Â °÷ -->
+<!-- í‘¸í„°ë“¤ì–´ê°€ëŠ” ê³³ -->
 <jsp:include page="../inc/bottom.jsp" />
-<!-- ÇªÅÍµé¾î°¡´Â °÷ -->
+<!-- í‘¸í„°ë“¤ì–´ê°€ëŠ” ê³³ -->
 </div>
 </body>
 </html>

@@ -9,6 +9,15 @@
 	RegisterDao dao = new RegisterDao();
 	
 	boolean isDuplicateId = dao.isDuplicateId(mem_id);
-	
-	response.sendRedirect("join.jsp?dupChecked=true&isDuplicateId=" + isDuplicateId);
 %>
+
+<form action="join.jsp" id="return" method="post">
+	<input type="hidden" name="dupChecked" value="true">
+	<input type="hidden" name="isDuplicateId" value="<%=isDuplicateId%>">
+	<input type="hidden" name="mem_id" value="<%=mem_id %>">
+</form>
+
+<script type="text/javascript">
+	document.getElementById("return").submit();
+</script>
+

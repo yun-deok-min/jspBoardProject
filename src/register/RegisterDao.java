@@ -47,13 +47,46 @@ public class RegisterDao {
 			}
 		}
 		catch(Exception e){
-			System.out.println("isDuplicateId 오류");
+			System.out.println("getAllId 오류");
 			e.printStackTrace();
 		}
 		finally{
 			freeResource();
 		}
 		return false;
+	}
+
+	public void registerMember(RegisterDto dto){
+		try{
+			conn = ds.getConnection();
+			String sql = "insert into member(mem_id, mem_pw, mem_name, mem_eamil, mem_addr, mem_phone, mem_tel) values(?,?,?,?,?,?,?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getMem_id());
+			pstmt.setString(2, dto.getMem_pw());
+			pstmt.setString(3, dto.getMem_name());
+			pstmt.setString(4, dto.getMem_email());
+			pstmt.setString(5, dto.getMem_addr());
+			pstmt.setString(6, dto.getMem_phone());
+			pstmt.setString(7, dto.getMem_tel());
+
+			pstmt.executeUpdate();
+		}
+		catch(Exception e){
+			System.out.println("registerMember, 회원 정보 입력 오류");
+			e.printStackTrace();
+		}
+		finally{
+			freeResource();
+		}
+	}
+
+	public void modifyMemberInfo(RegisterDto dto){
+		try{
+		}
+		catch(Exception e){
+			System.out.println("modifyMemberInfo, 회원 정보 생성 오류");
+			e.printStackTrace();
+		}
 	}
 }
 
