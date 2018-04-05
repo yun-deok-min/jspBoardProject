@@ -10,6 +10,6 @@
 
 <%
 	dao.registerMember(dto);
-	response.sendRedirect("index.jsp");
+	response.sendRedirect("../index.jsp");
 %>
     

@@ -59,7 +59,7 @@ public class RegisterDao {
 	public void registerMember(RegisterDto dto){
 		try{
 			conn = ds.getConnection();
-			String sql = "insert into member(mem_id, mem_pw, mem_name, mem_eamil, mem_addr, mem_phone, mem_tel) values(?,?,?,?,?,?,?)";
+			String sql = "insert into member(mem_id, mem_pw, mem_name, mem_email, mem_addr, mem_phone, mem_tel) values(?,?,?,?,?,?,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, dto.getMem_id());
 			pstmt.setString(2, dto.getMem_pw());
