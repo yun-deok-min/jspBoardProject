@@ -44,6 +44,7 @@
 %>
  			<script type="text/javascript">
  				var isDuplicateId = true;
+ 				alert("이미 존재하는 아이디 입니다. 변경해주세요");
  			</script>
  <% 
   		}
@@ -52,6 +53,7 @@
  %>
  			<script type="text/javascript">
  				var isDuplicateId = false;
+ 				alert("사용가능한 아이디 입니다");
  			</script>
  <% 
  		}
@@ -171,21 +173,38 @@
 <label>이름</label>
 <input type="text" name="mem_name"><br>
 <label>이메일</label>
-<input type="email" name="mem_email" id="mem_email"><br>
+<input type="email" name="mem_email" id="mem_email" placeholder="sample@sample.com"><br>
 <label>이메일 확인</label>
-<input type="email" name="mem_email2" id="mem_email2"><br>
+<input type="email" name="mem_email2" id="mem_email2" placeholder="sample@sample.com"><br>
 </fieldset>
 
-<!-- 
-
-<input type="text" id="sample6_postcode" placeholder="우편번호">
-<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-<input type="text" id="sample6_address" placeholder="주소">
-<input type="text" id="sample6_address2" placeholder="상세주소">
+<fieldset>
+<legend>Optional</legend>
+<label>우편번호</label>
+<input type="text" name="mem_addr_num"> 
+<input type="button" onclick="findAddr()" value="우편번호 찾기" class=dup><br>
+<label>주소</label>
+<input type="text" name="mem_addr" placeholder="주소"> 
+<input type="text" name="mem_addr2" placeholder="상세주소"><br> 
+<label>집 전화</label>
+<input type="text" name="mem_tel" placeholder="000-0000-0000"><br>
+<label>휴대폰</label>
+<input type="text" name="mem_phone" placeholder="000-0000-0000"><br>
+</fieldset>
+<div class="clear"></div>
+<div id="buttons">
+<!-- <input type="submit" value="회원가입" class="submit"> -->
+<input type="button" value="회원가입" class="submit" onclick="CheckForm()"> 
+<input type="reset" value="취소" class="cancel">
+</div>
+</form>
+</article>
+<!-- 본문내용 -->
+<!-- 본문들어가는 곳 -->
 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
-    function sample6_execDaumPostcode() {
+    function findAddr() {
         new daum.Postcode({
             oncomplete: function(data) {
                 // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
@@ -194,9 +213,11 @@
                 // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
                 var fullAddr = ''; // 최종 주소 변수
                 var extraAddr = ''; // 조합형 주소 변수
+                
+                alert(data.toString());
 
                 // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                if (data.userSelectedType == 'R') { // 사용자가 도로명 주소를 선택했을 경우
                     fullAddr = data.roadAddress;
 
                 } else { // 사용자가 지번 주소를 선택했을 경우(J)
@@ -204,7 +225,7 @@
                 }
 
                 // 사용자가 선택한 주소가 도로명 타입일때 조합한다.
-                if(data.userSelectedType === 'R'){
+                if(data.userSelectedType == 'R'){
                     //법정동명이 있을 경우 추가한다.
                     if(data.bname !== ''){
                         extraAddr += data.bname;
@@ -218,37 +239,15 @@
                 }
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('sample6_postcode').value = data.zonecode; //5자리 새우편번호 사용
-                document.getElementById('sample6_address').value = fullAddr;
+                document.getElementById('mem_addr_num').value = data.zonecode; //5자리 새우편번호 사용
+                document.getElementById('mem_addr').value = fullAddr;
 
                 // 커서를 상세주소 필드로 이동한다.
-                document.getElementById('sample6_address2').focus();
+                document.getElementById('mem_addr2').focus();
             }
         }).open();
     }
 </script>
-
- -->
-
-<fieldset>
-<legend>Optional</legend>
-<label>주소</label>
-<input type="text" name="mem_addr"><br>
-<label>집 전화</label>
-<input type="text" name="mem_tel"><br>
-<label>휴대폰</label>
-<input type="text" name="mem_phone"><br>
-</fieldset>
-<div class="clear"></div>
-<div id="buttons">
-<!-- <input type="submit" value="회원가입" class="submit"> -->
-<input type="button" value="회원가입" class="submit" onclick="CheckForm()"> 
-<input type="reset" value="취소" class="cancel">
-</div>
-</form>
-</article>
-<!-- 본문내용 -->
-<!-- 본문들어가는 곳 -->
 
 <div class="clear"></div>
 <!-- 푸터들어가는 곳 -->

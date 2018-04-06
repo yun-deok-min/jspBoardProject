@@ -11,7 +11,7 @@
 	boolean isDuplicateId = dao.isDuplicateId(mem_id);
 %>
 
-<form action="join.jsp" id="return" method="post">
+<form action="join.jsp#mem_id" id="return" method="post">
 	<input type="hidden" name="dupChecked" value="true">
 	<input type="hidden" name="isDuplicateId" value="<%=isDuplicateId%>">
 	<input type="hidden" name="mem_id" value="<%=mem_id %>">
